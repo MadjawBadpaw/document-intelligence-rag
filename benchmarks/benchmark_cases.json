@@ -1,0 +1,1400 @@
+{
+  "schema_version": 1,
+  "title": "Document Intelligence RAG Benchmark v1",
+  "description": "50 annotated questions. 40 real-PDF questions (20 university syllabus, 20 Infosys annual report); 10 fixture questions (DOCX/MD/TXT/scanned PDF). Labels mark minimum answer-bearing evidence, not every relevant passage.",
+  "corpora": {
+    "syllabus": {
+      "documents": [
+        "sample.pdf"
+      ],
+      "origin": "real-user-provided syllabus, 160 PDF pages",
+      "source_url": null
+    },
+    "report": {
+      "documents": [
+        "report.pdf"
+      ],
+      "origin": "Infosys audited Integrated Annual Report 2024-25, 369 PDF pages",
+      "source_url": "https://www.infosys.com/investors/reports-filings/annual-report/annual/documents/infosys-ar-25.pdf"
+    },
+    "fixtures": {
+      "documents": [
+        "soc_runbook.docx",
+        "api_reference.md",
+        "release_notes.txt",
+        "scanned_invoice.pdf"
+      ],
+      "origin": "synthetic deterministic cross-format test fixtures",
+      "source_url": null
+    }
+  },
+  "cases": [
+    {
+      "id": "S01",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "What is the total number of credits in Semester VII?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "Semester-VII",
+              "18"
+            ],
+            "page": 6
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "18"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "S02",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "How many credits are prescribed for Semester VIII?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "Semester-VIII",
+              "17"
+            ],
+            "page": 6
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "17"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "S03",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "Compare Semester VII and Semester VIII total credits.",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "Semester-VII",
+              "18"
+            ],
+            "page": 6
+          }
+        ],
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "Semester-VIII",
+              "17"
+            ],
+            "page": 6
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "18"
+        ],
+        [
+          "17"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "S04",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "Identify the code and credits for Data Warehouse and Data Mining in Semester VIII.",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "CS-8001",
+              "Data Warehouse",
+              "3"
+            ],
+            "page": 6
+          },
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "CS-8001",
+              "Credits-3"
+            ],
+            "page": 136
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "CS-8001"
+        ],
+        [
+          "3"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "holdout"
+    },
+    {
+      "id": "S05",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "What is covered under Section-A of CS-8001 regarding OLTP/OLAP and data warehouse schema?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "CS-8001",
+              "Section-A",
+              "OLTP",
+              "snowflakes"
+            ],
+            "page": 136
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "OLTP"
+        ],
+        [
+          "OLAP"
+        ],
+        [
+          "snowflake",
+          "snowflakes"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "S06",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "Which association rule algorithm appears under Section-B of CS-8001?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "Section-B",
+              "apriori algorithm"
+            ],
+            "page": 136
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "Apriori"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "S07",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "For CS-8001, give its Semester VIII credits and describe its Section-B data mining topics.",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "Semester-VIII",
+              "CS-8001"
+            ],
+            "page": 6
+          },
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "CS-8001",
+              "Credits-3"
+            ],
+            "page": 136
+          }
+        ],
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "Section-B",
+              "Association rules",
+              "apriori"
+            ],
+            "page": 136
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "3"
+        ],
+        [
+          "Apriori"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "S08",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "What is the course code and credit value of Project-II in Semester VIII?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "CS-8051",
+              "Project-II",
+              "5"
+            ],
+            "page": 6
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "CS-8051"
+        ],
+        [
+          "5"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "holdout"
+    },
+    {
+      "id": "S09",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "What is the course code of Artificial Intelligence in Semester VI?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "CS-6001",
+              "Artificial Intelligence"
+            ],
+            "page": 5
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "CS-6001"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "S10",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "State the code and credits for Database Management System in Semester V.",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "CS-5002",
+              "Database Management System"
+            ],
+            "page": 5
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "CS-5002"
+        ],
+        [
+          "3"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "S11",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "Which Professional Elective-I course uses code CS-PE-I-706?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "CS-PE-I-706",
+              "Neural Networks"
+            ],
+            "page": 6
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "Neural Networks"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "S12",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "Which Semester VIII Open Elective has code CS-OE-801?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "CS-OE-801",
+              "Ethical Hacking"
+            ],
+            "page": 7
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "Ethical Hacking"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "holdout"
+    },
+    {
+      "id": "S13",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "How many total credits does the BTech programme require?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "TOTAL CREDITS",
+              "160"
+            ],
+            "page": 7
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "160"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "S14",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "Give the course code for Applied Mathematics-I in Semester I.",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "Semester-I",
+              "AS-1001",
+              "Applied Mathematics-I"
+            ],
+            "page": 3
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "AS-1001"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "S15",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "Which Semester III subject is identified as ES-3001?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "ES-3001",
+              "Discrete Mathematics"
+            ],
+            "page": 4
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "Discrete Mathematics"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "S16",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "What course code is used for Operating System in Semester IV?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "CS-4001",
+              "Operating System"
+            ],
+            "page": 4
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "CS-4001"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "holdout"
+    },
+    {
+      "id": "S17",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "Which Professional Elective-II course is code CS-PE-II-801?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "CS-PE-II-801",
+              "Cloud Computing"
+            ],
+            "page": 7
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "Cloud Computing"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "S18",
+      "corpus": "syllabus",
+      "kind": "factual",
+      "question": "What skill does Course Outcome CO3 of CS-8001 describe?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "sample.pdf",
+            "contains": [
+              "CO3",
+              "analyzing techniques"
+            ],
+            "page": 137
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "analyzing techniques",
+          "analysis techniques"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "S19",
+      "corpus": "syllabus",
+      "kind": "unanswerable",
+      "question": "According to this syllabus, what was the highest CSE placement package in 2025?",
+      "gold_evidence": [],
+      "expected_answer": [],
+      "annotation_note": "No placement salary figure is given in the syllabus.",
+      "split": "dev"
+    },
+    {
+      "id": "S20",
+      "corpus": "syllabus",
+      "kind": "unanswerable",
+      "question": "According to the syllabus, what are the required subjects for Semester IX?",
+      "gold_evidence": [],
+      "expected_answer": [],
+      "annotation_note": "Document explicitly covers semesters I through VIII only; no IX structure.",
+      "split": "holdout"
+    },
+    {
+      "id": "F01",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "What was Infosys standalone revenue from operations in FY2025 (in rupees crore)?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Revenue from operations",
+              "1,36,592"
+            ],
+            "page": 30
+          },
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Revenue from operations",
+              "1,36,592"
+            ],
+            "page": 196
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "136592",
+          "1,36,592"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "F02",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "What was Infosys standalone revenue from operations in FY2024?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Revenue from operations",
+              "1,28,933"
+            ],
+            "page": 30
+          },
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Revenue from operations",
+              "1,28,933"
+            ],
+            "page": 196
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "128933",
+          "1,28,933"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "F03",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "What was Infosys consolidated revenue from operations in FY2025?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Revenue from operations",
+              "1,62,990"
+            ],
+            "page": 30
+          },
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Revenue from operations",
+              "162,990"
+            ],
+            "page": 276
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "162990",
+          "1,62,990"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "F04",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "What was Infosys consolidated revenue from operations in FY2024?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Revenue from operations",
+              "1,53,670"
+            ],
+            "page": 30
+          },
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Revenue from operations",
+              "153,670"
+            ],
+            "page": 276
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "153670",
+          "1,53,670"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "holdout"
+    },
+    {
+      "id": "F05",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "Compare standalone and consolidated revenue from operations for FY2025 and FY2024 and show all four figures.",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Revenue from operations",
+              "1,36,592",
+              "1,28,933"
+            ],
+            "page": 30
+          },
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Revenue from operations",
+              "1,36,592",
+              "1,28,933"
+            ],
+            "page": 196
+          }
+        ],
+        [
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Revenue from operations",
+              "1,62,990",
+              "1,53,670"
+            ],
+            "page": 30
+          },
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Revenue from operations",
+              "162,990",
+              "153,670"
+            ],
+            "page": 276
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "136592"
+        ],
+        [
+          "128933"
+        ],
+        [
+          "162990"
+        ],
+        [
+          "153670"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "F06",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "What was the percentage year-over-year growth in consolidated revenue for FY2025?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Revenue from operations",
+              "6.1"
+            ],
+            "page": 30
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "6.1",
+          "6.06"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "F07",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "What was the FY2025 year-over-year growth rate of standalone revenue?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Revenue from operations",
+              "5.9"
+            ],
+            "page": 30
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "5.9",
+          "5.94"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "F08",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "What was consolidated profit after tax for FY2025 in crore rupees?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Profit after tax",
+              "26,750"
+            ],
+            "page": 30
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "26750",
+          "26,750"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "holdout"
+    },
+    {
+      "id": "F09",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "What was consolidated profit after tax for FY2024?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Profit after tax",
+              "26,248"
+            ],
+            "page": 30
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "26248",
+          "26,248"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "F10",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "What was Infosys standalone profit after tax for FY2025?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Profit after tax",
+              "25,568"
+            ],
+            "page": 30
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "25568",
+          "25,568"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "F11",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "What was consolidated profit before tax for FY2025?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Profit before tax",
+              "37,608"
+            ],
+            "page": 30
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "37608",
+          "37,608"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "F12",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "What was standalone profit before tax for FY2024?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Profit before tax",
+              "35,953"
+            ],
+            "page": 30
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "35953",
+          "35,953"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "holdout"
+    },
+    {
+      "id": "F13",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "What were Infosys consolidated tax expenses in FY2025?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Tax expense",
+              "10,858"
+            ],
+            "page": 30
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "10858",
+          "10,858"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "F14",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "In the Standalone Statement of Profit and Loss (not the Board report), what is revenue from operations for FY2025 and FY2024? Cite that statement.",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "page": 196,
+            "contains": [
+              "Revenue from operations",
+              "1,36,592",
+              "1,28,933"
+            ]
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "136592"
+        ],
+        [
+          "128933"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "F15",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "What were consolidated total expenses in FY2025?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "contains": [
+              "Total expenses",
+              "1,28,566"
+            ],
+            "page": 30
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "128566",
+          "1,28,566"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "F16",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "In the Consolidated Statement of Profit and Loss (not the Board report), what is revenue from operations for FY2025 and FY2024? Cite that statement.",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "page": 276,
+            "contains": [
+              "Consolidated Statement of Profit and Loss",
+              "Revenue from operations",
+              "162,990",
+              "153,670"
+            ]
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "162990"
+        ],
+        [
+          "153670"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "holdout"
+    },
+    {
+      "id": "F17",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "According to the consolidated revenue note, what was revenue from software services in FY2025 and FY2024?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "page": 321,
+            "contains": [
+              "Revenue from software services",
+              "1,55,395",
+              "1,45,285"
+            ]
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "155395"
+        ],
+        [
+          "145285"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "F18",
+      "corpus": "report",
+      "kind": "factual",
+      "question": "According to the consolidated revenue note, what was revenue from products and platforms in FY2025 and FY2024?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "report.pdf",
+            "page": 321,
+            "contains": [
+              "Revenue from products and platforms",
+              "7,595",
+              "8,385"
+            ]
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "7595"
+        ],
+        [
+          "8385"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "F19",
+      "corpus": "report",
+      "kind": "unanswerable",
+      "question": "According to this annual report, how many employees were hired by Google from UIT Shimla in 2025?",
+      "gold_evidence": [],
+      "expected_answer": [],
+      "annotation_note": "Specific university placement outcome not covered.",
+      "split": "dev"
+    },
+    {
+      "id": "F20",
+      "corpus": "report",
+      "kind": "unanswerable",
+      "question": "What was the exact winning lottery ticket number in Infosys FY2025 financial statements?",
+      "gold_evidence": [],
+      "expected_answer": [],
+      "annotation_note": "No lottery result exists in report.",
+      "split": "holdout"
+    },
+    {
+      "id": "X01",
+      "corpus": "fixtures",
+      "kind": "factual",
+      "question": "According to soc_runbook.docx, what severity is assigned to suspicious PowerShell with encoded commands?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "soc_runbook.docx",
+            "contains": [
+              "Encoded PowerShell",
+              "High"
+            ]
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "High"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "X02",
+      "corpus": "fixtures",
+      "kind": "factual",
+      "question": "According to soc_runbook.docx, what is the required initial triage SLA for High severity?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "soc_runbook.docx",
+            "contains": [
+              "High",
+              "15 minutes"
+            ]
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "15 minutes",
+          "15 min"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "X03",
+      "corpus": "fixtures",
+      "kind": "factual",
+      "question": "What must the analyst preserve before endpoint isolation in soc_runbook.docx?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "soc_runbook.docx",
+            "contains": [
+              "volatile",
+              "evidence"
+            ]
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "volatile memory",
+          "volatile evidence",
+          "memory image"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "X04",
+      "corpus": "fixtures",
+      "kind": "factual",
+      "question": "Which on-call team receives a confirmed credential compromise in soc_runbook.docx?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "soc_runbook.docx",
+            "contains": [
+              "credential compromise",
+              "Identity Response"
+            ]
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "Identity Response"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "holdout"
+    },
+    {
+      "id": "X05",
+      "corpus": "fixtures",
+      "kind": "factual",
+      "question": "What is the retry delay for HTTP 429 in api_reference.md?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "api_reference.md",
+            "contains": [
+              "HTTP 429",
+              "Retry-After"
+            ]
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "Retry-After"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "X06",
+      "corpus": "fixtures",
+      "kind": "factual",
+      "question": "What is the default page size for GET /v1/events in api_reference.md?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "api_reference.md",
+            "contains": [
+              "GET /v1/events",
+              "50"
+            ]
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "50"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "X07",
+      "corpus": "fixtures",
+      "kind": "factual",
+      "question": "What was fixed in release 2.4.1 according to release_notes.txt?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "release_notes.txt",
+            "contains": [
+              "2.4.1",
+              "duplicate webhook"
+            ]
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "duplicate webhook"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "X08",
+      "corpus": "fixtures",
+      "kind": "factual",
+      "question": "Which release introduced the event cursor endpoint in release_notes.txt?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "release_notes.txt",
+            "contains": [
+              "2.4.0",
+              "cursor endpoint"
+            ]
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "2.4.0"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "holdout"
+    },
+    {
+      "id": "X09",
+      "corpus": "fixtures",
+      "kind": "factual",
+      "question": "What is the invoice ID and total due on scanned_invoice.pdf?",
+      "gold_evidence": [
+        [
+          {
+            "filename": "scanned_invoice.pdf",
+            "contains": [
+              "INV-2025-417",
+              "18,450"
+            ],
+            "page": 1
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "INV-2025-417"
+        ],
+        [
+          "18450",
+          "18,450"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    },
+    {
+      "id": "X10",
+      "corpus": "fixtures",
+      "kind": "factual",
+      "question": "Compare the High severity response time in soc_runbook.docx with the API retry rule in api_reference.md.",
+      "gold_evidence": [
+        [
+          {
+            "filename": "soc_runbook.docx",
+            "contains": [
+              "High",
+              "15 minutes"
+            ]
+          }
+        ],
+        [
+          {
+            "filename": "api_reference.md",
+            "contains": [
+              "HTTP 429",
+              "Retry-After"
+            ]
+          }
+        ]
+      ],
+      "expected_answer": [
+        [
+          "15 minutes",
+          "15 min"
+        ],
+        [
+          "Retry-After"
+        ]
+      ],
+      "annotation_note": "",
+      "split": "dev"
+    }
+  ]
+}

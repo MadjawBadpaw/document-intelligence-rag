@@ -1,0 +1,55 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python environments
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# RAG indexes and caches
+.rag_cache/
+*.faiss
+*.index
+
+# Downloaded ML model weights
+*.safetensors
+*.onnx
+*.pth
+*.pt
+
+# Uploaded/private documents
+*.pdf
+*.docx
+
+# Generated benchmark reports (project root)
+/benchmark_*.json
+/benchmark_*.md
+/benchmark_*.csv
+
+# Generated benchmark fixture files
+/api_reference.md
+/release_notes.txt
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Editor and operating system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
